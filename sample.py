@@ -1,5 +1,8 @@
 #
-# Tetris
+# Initial experiments with PyGame.
+#
+# Code copied from following tutorial:
+#     http://www.nerdparadise.com/programming/pygame/part1
 #
 
 import pygame
