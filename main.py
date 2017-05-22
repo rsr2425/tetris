@@ -8,8 +8,67 @@
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 GAME_BLOCK_UNIT = 60
+color = (0, 0, 255)
 
 # Important Objects in the program
+class Tetromino(object):
+    def __init__(self, x=0, y=0):
+        self.loc = x, y
+        self.orient = 'u'
+
+    def rotate_clockwise(self, curr_pos):
+        raise NotImplemented()
+
+    def down(self):
+        # TODO Right now this could push it out of the grid
+        fx, fy = self.loc
+        self.loc = (fx, fy+1)
+
+    def right(self):
+        # TODO Right now this could push it out of the grid
+        fx, fy = self.loc
+        self.loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self.loc
+        self.loc = (fx-1, fy)
+
+    def move(self, input):
+        raise NotImplemented()
+
+    def draw(self):
+        raise NotImplemented()
+
+
+class BoxTetro(Tetromino):
+    def move(self, input):
+        if input == "DOWN":
+            self.down()
+        elif input == "RIGHT":
+            self.right()
+        elif input == "LEFT":
+            self.left()
+
+    def rotate_clockwise(self):
+        pass
+
+    # TODO need to include some kind of bounding checks
+    def draw(self):
+        x_grid, y_grid = self.loc
+        x, y = x_grid * GAME_BLOCK_UNIT, y_grid * GAME_BLOCK_UNIT
+        pygame.draw.rect(screen, color, pygame.Rect(x, y, GAME_BLOCK_UNIT
+                                                , GAME_BLOCK_UNIT), 5)
+        pygame.draw.rect(screen, color, pygame.Rect(x+GAME_BLOCK_UNIT, y,
+                                                    GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT), 5)
+        pygame.draw.rect(screen, color, pygame.Rect(x, y+GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT), 5)
+        pygame.draw.rect(screen, color, pygame.Rect(x+GAME_BLOCK_UNIT,
+                                                    y+GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT), 5)
+
 class BlockGrid(object):
     '''
     Stores the locations of all the blocks relevant to the game.  Also keeps
@@ -43,12 +102,13 @@ class BlockGrid(object):
                                                                GAME_BLOCK_UNIT
                                                           , GAME_BLOCK_UNIT), 5)
 
+        self.fblock.draw()
+
     def drop(self, x=0, y=0):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        self.grid[y][x] = 1
-        self.fblock = (x, y)
+        self.fblock = BoxTetro(x,y)
 
     def update(self, input):
         '''
@@ -59,21 +119,7 @@ class BlockGrid(object):
         :param input:
         :return:
         '''
-        if input == "DOWN":
-            fx, fy = self.fblock
-            self.grid[fy][fx] = 0
-            self.grid[fy + 1][fx] = 1
-            self.fblock = (fx, fy+1)
-        elif input == "RIGHT":
-            fx, fy = self.fblock
-            self.grid[fy][fx] = 0
-            self.grid[fy][fx + 1] = 1
-            self.fblock = (fx+1, fy)
-        elif input == "LEFT":
-            fx, fy = self.fblock
-            self.grid[fy][fx] = 0
-            self.grid[fy][fx - 1] = 1
-            self.fblock = (fx-1, fy)
+        self.fblock.move(input)
 
 import pygame
 import time
