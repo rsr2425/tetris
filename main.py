@@ -8,7 +8,9 @@
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 GAME_BLOCK_UNIT = 60
-color = (0, 0, 255)
+
+# color constants
+BLUE = (0, 0, 255)
 
 # Important Objects in the program
 class Tetromino(object):
@@ -56,18 +58,18 @@ class BoxTetro(Tetromino):
     def draw(self):
         x_grid, y_grid = self.loc
         x, y = x_grid * GAME_BLOCK_UNIT, y_grid * GAME_BLOCK_UNIT
-        pygame.draw.rect(screen, color, pygame.Rect(x, y, GAME_BLOCK_UNIT
-                                                , GAME_BLOCK_UNIT), 5)
-        pygame.draw.rect(screen, color, pygame.Rect(x+GAME_BLOCK_UNIT, y,
+        pygame.draw.rect(screen, BLUE, pygame.Rect(x, y, GAME_BLOCK_UNIT
+                                                , GAME_BLOCK_UNIT), 15)
+        pygame.draw.rect(screen, BLUE, pygame.Rect(x+GAME_BLOCK_UNIT, y,
                                                     GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 5)
-        pygame.draw.rect(screen, color, pygame.Rect(x, y+GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT), 15)
+        pygame.draw.rect(screen, BLUE, pygame.Rect(x, y+GAME_BLOCK_UNIT,
                                                     GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 5)
-        pygame.draw.rect(screen, color, pygame.Rect(x+GAME_BLOCK_UNIT,
+                                                    GAME_BLOCK_UNIT), 15)
+        pygame.draw.rect(screen, BLUE, pygame.Rect(x+GAME_BLOCK_UNIT,
                                                     y+GAME_BLOCK_UNIT,
                                                     GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 5)
+                                                    GAME_BLOCK_UNIT), 15)
 
 class BlockGrid(object):
     '''
@@ -95,12 +97,14 @@ class BlockGrid(object):
         for j in range(len(self.grid)):
             for i in range(len(self.grid[j])):
                 if self.grid[j][i] == 1:
-                    pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(x + (i *
+                    color = (0, 0, 255)
+                    pygame.draw.rect(screen, color, pygame.Rect(x + (i *
                                                                GAME_BLOCK_UNIT),
                                                                y + (j *
                                                                GAME_BLOCK_UNIT),
                                                                GAME_BLOCK_UNIT
                                                           , GAME_BLOCK_UNIT), 5)
+
 
         self.fblock.draw()
 
