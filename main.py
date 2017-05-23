@@ -11,6 +11,7 @@ GAME_BLOCK_UNIT = 60
 
 # color constants
 BLUE = (0, 0, 255)
+WHITE = (255, 255, 255)
 
 # Important Objects in the program
 class Tetromino(object):
@@ -38,7 +39,7 @@ class Tetromino(object):
     def move(self, input):
         raise NotImplemented()
 
-    def draw(self):
+    def get_grid_loc(self):
         raise NotImplemented()
 
 
@@ -55,21 +56,10 @@ class BoxTetro(Tetromino):
         pass
 
     # TODO need to include some kind of bounding checks
-    def draw(self):
-        x_grid, y_grid = self.loc
-        x, y = x_grid * GAME_BLOCK_UNIT, y_grid * GAME_BLOCK_UNIT
-        pygame.draw.rect(screen, BLUE, pygame.Rect(x, y, GAME_BLOCK_UNIT
-                                                , GAME_BLOCK_UNIT), 15)
-        pygame.draw.rect(screen, BLUE, pygame.Rect(x+GAME_BLOCK_UNIT, y,
-                                                    GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 15)
-        pygame.draw.rect(screen, BLUE, pygame.Rect(x, y+GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 15)
-        pygame.draw.rect(screen, BLUE, pygame.Rect(x+GAME_BLOCK_UNIT,
-                                                    y+GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT,
-                                                    GAME_BLOCK_UNIT), 15)
+    def get_grid_loc(self):
+        x, y = self.loc
+        return [(x,y), (x+1,y), (x,y+1), (x+1,y+1)]
+
 
 class BlockGrid(object):
     '''
@@ -93,20 +83,29 @@ class BlockGrid(object):
         '''
         Draws all squares currently containted in the grid.
         '''
+
+        # add falling falling block to grid
+        for bx, by in self.fblock.get_grid_loc():
+            self.grid[by][bx] = 1
+
+        # draw grid
         # (i, j)-th square in grid
         for j in range(len(self.grid)):
             for i in range(len(self.grid[j])):
                 if self.grid[j][i] == 1:
-                    color = (0, 0, 255)
-                    pygame.draw.rect(screen, color, pygame.Rect(x + (i *
+                    color = BLUE
+                else:
+                    color = WHITE
+                pygame.draw.rect(screen, color, pygame.Rect(x + (i *
                                                                GAME_BLOCK_UNIT),
                                                                y + (j *
                                                                GAME_BLOCK_UNIT),
                                                                GAME_BLOCK_UNIT
                                                           , GAME_BLOCK_UNIT), 5)
 
-
-        self.fblock.draw()
+        # remove falling block from grid
+        for bx, by in self.fblock.get_grid_loc():
+            self.grid[by][bx] = 0
 
     def drop(self, x=0, y=0):
         '''
@@ -137,6 +136,7 @@ x = 100
 y = 100
 
 grid = BlockGrid(x, y, 600, 600)
+score = 0
 
 # Main Game Loop
 while not done:
