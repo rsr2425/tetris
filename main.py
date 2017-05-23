@@ -3,7 +3,9 @@
 #
 #
 
-from blocks import *
+from blocks import TTetro
+
+curr_score = 0
 
 # set constants for script
 SCREEN_WIDTH = 800
@@ -15,7 +17,6 @@ BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
 # Important Objects in the program
-
 class BlockGrid(object):
     '''
     Stores the locations of all the blocks relevant to the game.  Also keeps
@@ -63,11 +64,11 @@ class BlockGrid(object):
         for bx, by in self.fblock.get_grid_loc():
             self.grid[by][bx] = 0
 
-    def drop(self, x=0, y=0):
+    def drop(self, x=2, y=0):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        self.fblock = BoxTetro(x,y,self)
+        self.fblock = TTetro(x,y,self)
 
     def update(self, input):
         '''
@@ -81,10 +82,22 @@ class BlockGrid(object):
         self.fblock.move(input)
 
     def calc_score(self):
-        raise NotImplemented()
+        for row in self.grid:
+            if sum(row) == len(row):
+                score(1)
+
+    # TODO Remove when done with testing purposes
+    def _complete_fst_row(self):
+        for i in range(len(self.grid[0])):
+            self.grid[0][i] = 1
+
+# Helper functions
+def score(delta):
+    global curr_score
+    curr_score += delta
+    print "The current score is %s" % (curr_score)
 
 import pygame
-import time
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -95,6 +108,7 @@ x = 100
 y = 100
 
 grid = BlockGrid(x, y, 600, 600)
+score(0)
 
 # Main Game Loop
 while not done:
@@ -105,6 +119,9 @@ while not done:
     if pressed[pygame.K_DOWN]: grid.update("DOWN")
     if pressed[pygame.K_LEFT]: grid.update("LEFT")
     if pressed[pygame.K_RIGHT]: grid.update("RIGHT")
+    if pressed[pygame.K_UP]:
+        grid._complete_fst_row()
+        grid.calc_score()
     screen.fill((0,0,0))
 
     grid.draw()
