@@ -4,6 +4,7 @@
 #
 
 from blocks import TTetro
+import pdb
 
 curr_score = 0
 
@@ -42,8 +43,24 @@ class BlockGrid(object):
         '''
 
         # add falling falling block to grid
+        # first check if there's no obstacle
+        # otherwise backtrack
+        obstacle = False
         for bx, by in self.fblock.get_grid_loc():
-            self.grid[by][bx] = 1
+            try:
+                if self.grid[by][bx] == 1:
+
+                    obstacle = True
+                    self.fblock.up()
+                    self.fblock.falling = False
+                    #pdb.set_trace()
+            except IndexError:
+                print (bx, by)
+                quit()
+
+        if not obstacle:
+            for bx, by in self.fblock.get_grid_loc():
+                self.grid[by][bx] = 1
 
         # draw grid
         # (i, j)-th square in grid
@@ -61,14 +78,15 @@ class BlockGrid(object):
                                                           , GAME_BLOCK_UNIT), 5)
 
         # remove falling block from grid
-        for bx, by in self.fblock.get_grid_loc():
-            self.grid[by][bx] = 0
+        if not obstacle:
+            for bx, by in self.fblock.get_grid_loc():
+                self.grid[by][bx] = 0
 
     def drop(self, x=2, y=0):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        self.fblock = TTetro(x,y,self)
+        self.fblock = TTetro(x, y, self)
 
     def update(self, input):
         '''
@@ -108,6 +126,7 @@ x = 100
 y = 100
 
 grid = BlockGrid(x, y, 600, 600)
+grid.grid[8][3] = 1
 score(0)
 
 # Main Game Loop
