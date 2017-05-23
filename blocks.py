@@ -8,6 +8,7 @@ class Tetromino(object):
         self.loc = x, y
         self.orient = 'u'
         self.bgrid = g
+        self.falling = True
 
     def move(self, input):
         raise NotImplemented()
