@@ -15,26 +15,22 @@ WHITE = (255, 255, 255)
 
 # Important Objects in the program
 class Tetromino(object):
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0, g=None):
         self.loc = x, y
         self.orient = 'u'
+        self.bgrid = g
 
     def rotate_clockwise(self, curr_pos):
         raise NotImplemented()
 
     def down(self):
-        # TODO Right now this could push it out of the grid
-        fx, fy = self.loc
-        self.loc = (fx, fy+1)
+        raise NotImplemented()
 
     def right(self):
-        # TODO Right now this could push it out of the grid
-        fx, fy = self.loc
-        self.loc = (fx+1, fy)
+        raise NotImplemented()
 
     def left(self):
-        fx, fy = self.loc
-        self.loc = (fx-1, fy)
+        raise NotImplemented()
 
     def move(self, input):
         raise NotImplemented()
@@ -51,6 +47,25 @@ class BoxTetro(Tetromino):
             self.right()
         elif input == "LEFT":
             self.left()
+
+    def down(self):
+        fx, fy = self.loc
+        if fy + 1 < self.bgrid.sqy - 2:
+            self.loc = (fx, fy+1)
+
+    def right(self):
+        fx, fy = self.loc
+        if fx + 1 >= self.bgrid.sqx - 1:
+            self.loc = (0, fy)
+        else:
+            self.loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self.loc
+        if fx - 1 < 0:
+            self.loc = self.bgrid.sqx - 2, fy
+        else:
+            self.loc = (fx-1, fy)
 
     def rotate_clockwise(self):
         pass
@@ -78,6 +93,7 @@ class BlockGrid(object):
         self.topleftx = X
         self.toplefty = Y
         self.drop()
+        self.score = 0
 
     def draw(self):
         '''
@@ -111,7 +127,7 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        self.fblock = BoxTetro(x,y)
+        self.fblock = BoxTetro(x,y,self)
 
     def update(self, input):
         '''
@@ -123,6 +139,9 @@ class BlockGrid(object):
         :return:
         '''
         self.fblock.move(input)
+
+    def calc_score(self):
+        raise NotImplemented()
 
 import pygame
 import time
@@ -136,7 +155,6 @@ x = 100
 y = 100
 
 grid = BlockGrid(x, y, 600, 600)
-score = 0
 
 # Main Game Loop
 while not done:
@@ -151,6 +169,6 @@ while not done:
 
     grid.draw()
 
-    clock.tick(60)
+    clock.tick(30)
 
     pygame.display.flip()
