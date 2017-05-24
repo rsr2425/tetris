@@ -154,7 +154,53 @@ class ZTetro(Tetromino):
         return [(x,y), (x-1,y), (x,y+1), (x+1,y+1)]
 
 class LTetro(Tetromino):
-    pass
+    def down(self):
+        fx, fy = self._loc
+        if fy + 1 < self.bgrid.sqy - 2:
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
+
+    def right(self):
+        fx, fy = self._loc
+        if fx + 1 >= self.bgrid.sqx - 1:
+            self._loc = (0, fy)
+        else:
+            self._loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self._loc
+        if fx - 1 < 0:
+            self._loc = self.bgrid.sqx - 2, fy
+        else:
+            self._loc = (fx-1, fy)
+
+    def get_grid_loc(self):
+        x, y = self._loc
+        return [(x,y), (x,y-1), (x,y+1), (x+1,y+1)]
 
 class ITetro(Tetromino):
-    pass
+    def down(self):
+        fx, fy = self._loc
+        if fy + 1 < self.bgrid.sqy - 2:
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
+
+    def right(self):
+        fx, fy = self._loc
+        if fx + 1 >= self.bgrid.sqx - 1:
+            self._loc = (0, fy)
+        else:
+            self._loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self._loc
+        if fx - 1 < 0:
+            self._loc = self.bgrid.sqx - 2, fy
+        else:
+            self._loc = (fx-1, fy)
+
+    def get_grid_loc(self):
+        x, y = self._loc
+        return [(x,y), (x,y-1), (x,y+1), (x,y+2)]

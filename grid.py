@@ -1,6 +1,6 @@
 import random
 import pygame
-from blocks import TTetro, BoxTetro, STetro, ZTetro
+from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
@@ -18,7 +18,7 @@ def score(g, delta):
     g.curr_score += delta
     print "The current score is %s" % (curr_score)
 
-GAME_BLOCK_UNIT = 30
+GAME_BLOCK_UNIT = 60
 
 class BlockGrid(object):
     '''
@@ -85,7 +85,7 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        choice = random.randint(1,4)
+        choice = random.randint(5,6)
         if choice == 1:
             self.fblock = TTetro(x, y, self)
         elif choice == 2:
@@ -94,6 +94,10 @@ class BlockGrid(object):
             self.fblock = STetro(x, y, self)
         elif choice == 4:
             self.fblock = ZTetro(x, y, self)
+        elif choice == 5:
+            self.fblock = LTetro(x, y, self)
+        elif choice == 6:
+            self.fblock = ITetro(x, y, self)
 
     def update(self, input=None):
         '''
