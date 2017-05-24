@@ -3,7 +3,8 @@
 #
 #
 
-from blocks import TTetro
+from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
+import random
 import pdb
 
 curr_score = 0
@@ -47,20 +48,15 @@ class BlockGrid(object):
         # otherwise backtrack
         obstacle = False
         for bx, by in self.fblock.get_grid_loc():
-            try:
-                if self.grid[by][bx] == 1:
+            if self.grid[by][bx] == 1:
 
-                    obstacle = True
-                    self.fblock.up()
-                    self.fblock.falling = False
-                    #pdb.set_trace()
-            except IndexError:
-                print (bx, by)
-                quit()
+                self.fblock.up()
+                self.fblock.falling = False
 
-        if not obstacle:
+        if self.fblock.falling:
             for bx, by in self.fblock.get_grid_loc():
                 self.grid[by][bx] = 1
+
 
         # draw grid
         # (i, j)-th square in grid
@@ -78,7 +74,7 @@ class BlockGrid(object):
                                                           , GAME_BLOCK_UNIT), 5)
 
         # remove falling block from grid
-        if not obstacle:
+        if self.fblock.falling:
             for bx, by in self.fblock.get_grid_loc():
                 self.grid[by][bx] = 0
 
@@ -86,9 +82,17 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        self.fblock = TTetro(x, y, self)
+        choice = random.randint(1,4)
+        if choice == 1:
+            self.fblock = TTetro(x, y, self)
+        elif choice == 2:
+            self.fblock = BoxTetro(x, y, self)
+        elif choice == 3:
+            self.fblock = STetro(x, y, self)
+        elif choice == 4:
+            self.fblock = ZTetro(x, y, self)
 
-    def update(self, input):
+    def update(self, input=None):
         '''
         Checks whether a move is valid, executes it, and sees if the
         move constitutes a special event.
@@ -97,8 +101,15 @@ class BlockGrid(object):
         :param input:
         :return:
         '''
-        self.fblock.move(input)
+        if not self.fblock.falling:
+            for bx, by in self.fblock.get_grid_loc():
+                self.grid[by][bx] = 1
+            self.drop()
+        if input:
+            self.fblock.move(input)
 
+    # TODO still needs to remove the squares after row is complete and slide
+    # down all of the squares
     def calc_score(self):
         for row in self.grid:
             if sum(row) == len(row):
@@ -129,8 +140,20 @@ grid = BlockGrid(x, y, 600, 600)
 grid.grid[8][3] = 1
 score(0)
 
+one_row_complete = False
+
 # Main Game Loop
 while not done:
+
+    grid.update()
+
+    # Temp code
+    if curr_score > 0:
+        one_row_complete = True
+
+    if not one_row_complete:
+        grid.calc_score()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -138,9 +161,8 @@ while not done:
     if pressed[pygame.K_DOWN]: grid.update("DOWN")
     if pressed[pygame.K_LEFT]: grid.update("LEFT")
     if pressed[pygame.K_RIGHT]: grid.update("RIGHT")
-    if pressed[pygame.K_UP]:
-        grid._complete_fst_row()
-        grid.calc_score()
+    #if pressed[pygame.K_1]: grid.update("CLOCKW")
+    #if pressed[pygame.K_2]: grid.update("COUNTERC")
     screen.fill((0,0,0))
 
     grid.draw()

@@ -7,7 +7,7 @@ import pdb
 
 class Tetromino(object):
     def __init__(self, x=0, y=0, g=None):
-        self.loc = x, y
+        self._loc = x, y
         self.orient = 'u'
         self.bgrid = g
         self.falling = True
@@ -25,11 +25,13 @@ class Tetromino(object):
         elif input == "LEFT":
             self.left()
 
-    def rotate_clockwise(self, curr_pos):
-        pass
+    def rotate_clockwise(self):
+        raise NotImplemented()
 
+    # FYI there's no bounds check here yet
     def up(self):
-        pass
+        fx, fy = self._loc
+        self._loc = (fx, fy-1)
 
     def down(self):
         pass
@@ -48,70 +50,111 @@ class Tetromino(object):
 
 
 class BoxTetro(Tetromino):
-    def up(self):
-        raise NotImplemented()
-
     def down(self):
-        fx, fy = self.loc
-        if fy + 1 < self.bgrid.sqy - 2:
-            self.loc = (fx, fy+1)
+        fx, fy = self._loc
+        if fy + 1 < self.bgrid.sqy - 1:
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
 
     def right(self):
-        fx, fy = self.loc
+        fx, fy = self._loc
         if fx + 1 >= self.bgrid.sqx - 1:
-            self.loc = (0, fy)
+            self._loc = (0, fy)
         else:
-            self.loc = (fx+1, fy)
+            self._loc = (fx+1, fy)
 
     def left(self):
-        fx, fy = self.loc
+        fx, fy = self._loc
         if fx - 1 < 0:
-            self.loc = self.bgrid.sqx - 2, fy
+            self._loc = self.bgrid.sqx - 2, fy
         else:
-            self.loc = (fx-1, fy)
+            self._loc = (fx-1, fy)
 
-    # TODO need to include some kind of bounding checks
     def get_grid_loc(self):
-        x, y = self.loc
+        x, y = self._loc
         return [(x,y), (x+1,y), (x,y+1), (x+1,y+1)]
 
 class TTetro(Tetromino):
-    def rotate_clockwise(self, curr_pos):
-        raise NotImplemented()
-
-    # FYI there's no bounds check here yet
-    def up(self):
-        fx, fy = self.loc
-        self.loc = (fx, fy-1)
-
     def down(self):
-        fx, fy = self.loc
+        fx, fy = self._loc
         if fy + 1 < self.bgrid.sqy - 1:
-            self.loc = (fx, fy+1)
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
 
     def right(self):
-        fx, fy = self.loc
+        fx, fy = self._loc
         if fx + 1 >= self.bgrid.sqx - 1:
-            self.loc = (0, fy)
+            self._loc = (0, fy)
         else:
-            self.loc = (fx+1, fy)
+            self._loc = (fx+1, fy)
 
     def left(self):
-        fx, fy = self.loc
+        fx, fy = self._loc
         if fx - 2 < 0:
-            self.loc = self.bgrid.sqx - 2, fy
+            self._loc = self.bgrid.sqx - 2, fy
         else:
-            self.loc = (fx-1, fy)
+            self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        x, y = self.loc
+        x, y = self._loc
         return [(x,y), (x+1,y), (x-1,y), (x,y+1)]
 
 class STetro(Tetromino):
-    pass
+    def down(self):
+        fx, fy = self._loc
+        if fy + 1 < self.bgrid.sqy - 1:
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
+
+    def right(self):
+        fx, fy = self._loc
+        if fx + 1 >= self.bgrid.sqx - 1:
+            self._loc = (0, fy)
+        else:
+            self._loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self._loc
+        if fx - 2 < 0:
+            self._loc = self.bgrid.sqx - 2, fy
+        else:
+            self._loc = (fx-1, fy)
+
+    def get_grid_loc(self):
+        x, y = self._loc
+        return [(x,y), (x+1,y), (x,y+1), (x-1,y+1)]
 
 class ZTetro(Tetromino):
-    pass
+    def down(self):
+        fx, fy = self._loc
+        if fy + 1 < self.bgrid.sqy - 1:
+            self._loc = (fx, fy+1)
+        else:
+            self.falling = False
+
+    def right(self):
+        fx, fy = self._loc
+        if fx + 1 >= self.bgrid.sqx - 1:
+            self._loc = (0, fy)
+        else:
+            self._loc = (fx+1, fy)
+
+    def left(self):
+        fx, fy = self._loc
+        if fx - 2 < 0:
+            self._loc = self.bgrid.sqx - 2, fy
+        else:
+            self._loc = (fx-1, fy)
+
+    def get_grid_loc(self):
+        x, y = self._loc
+        return [(x,y), (x-1,y), (x,y+1), (x+1,y+1)]
 
 class LTetro(Tetromino):
+    pass
+
+class ITetro(Tetromino):
     pass
