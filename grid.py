@@ -1,9 +1,24 @@
 import random
+import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro
-from main import GAME_BLOCK_UNIT, BLUE, WHITE, screen, x, y, score
 
-__author__ = 'Ryan'
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
 
+# useful color constants
+BLUE = (0, 0, 255)
+WHITE = (255, 255, 255)
+
+x = 100
+y = 100
+
+# Useful Helper functions
+# g - grid
+def score(g, delta):
+    g.curr_score += delta
+    print "The current score is %s" % (curr_score)
+
+GAME_BLOCK_UNIT = 30
 
 class BlockGrid(object):
     '''
@@ -12,7 +27,7 @@ class BlockGrid(object):
 
     The X specifies the upper left
     '''
-    def __init__(self, X, Y, width, height):
+    def __init__(self, X, Y, width, height, s):
         # initialize grid with available size
         # sqx - # of squares width-wise
         # sqy - # of squares height-wise
@@ -23,6 +38,8 @@ class BlockGrid(object):
         self.toplefty = Y
         self.drop()
         self.score = 0
+        self.screen = s
+        self.curr_score = 0
 
     def draw(self):
         '''
@@ -52,7 +69,7 @@ class BlockGrid(object):
                     color = BLUE
                 else:
                     color = WHITE
-                pygame.draw.rect(screen, color, pygame.Rect(x + (i *
+                pygame.draw.rect(self.screen, color, pygame.Rect(x + (i *
                                                                GAME_BLOCK_UNIT),
                                                                y + (j *
                                                                GAME_BLOCK_UNIT),
@@ -105,4 +122,3 @@ class BlockGrid(object):
     def _complete_fst_row(self):
         for i in range(len(self.grid[0])):
             self.grid[0][i] = 1
-
