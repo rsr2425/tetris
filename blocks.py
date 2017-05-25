@@ -1,9 +1,9 @@
-#
-# Blocks Module
-#
-#
+#!/usr/bin/env python
+"""
+ Tetris
 
-import pdb
+ [Write desc. here]
+"""
 
 class Tetromino(object):
     def __init__(self, x=0, y=0, g=None):
@@ -11,12 +11,15 @@ class Tetromino(object):
         self.orient = 'u'
         self.bgrid = g
         self.falling = True
+        self._prev_loc = x,y
 
     def move(self, input):
         # Pieces that have stopped falling shouldn't move
         if not self.falling:
             #pdb.set_trace()
             return None
+
+        self._prev_loc = self._loc
 
         if input == "DOWN":
             self.down()
@@ -47,6 +50,9 @@ class Tetromino(object):
 
     def in_grid(self):
         raise NotImplemented()
+
+    def backtrack(self):
+        self._loc = self._prev_loc
 
 
 class BoxTetro(Tetromino):

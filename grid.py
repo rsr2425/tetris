@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+"""
+ Tetris
+
+ [Write desc. here]
+"""
+
 import random
 import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
@@ -6,14 +13,15 @@ from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
-x = 100
-y = 100
+X = 100
+Y = 100
 
 # Useful Helper functions
 # g - grid
-def score(g, delta):
-    g.curr_score += delta
-    print "The current score is %s" % (g.curr_score)
+def score(G, delta):
+    """Add----------------------"""
+    G.curr_score += delta
+    print "The current score is %s" % (G.curr_score)
 
 GAME_BLOCK_UNIT = 60
 
@@ -47,15 +55,15 @@ class BlockGrid(object):
         # first check if there's no obstacle
         # otherwise backtrack
         obstacle = False
-        for bx, by in self.fblock.get_grid_loc():
-            if self.grid[by][bx] == 1:
-
-                self.fblock.up()
+        for BX, BY in self.fblock.get_grid_loc():
+            if self.grid[BY][BX] == 1:
+                self.fblock.backtrack()
                 self.fblock.falling = False
 
+        # add falling block to grid
         if self.fblock.falling:
-            for bx, by in self.fblock.get_grid_loc():
-                self.grid[by][bx] = 1
+            for BX, BY in self.fblock.get_grid_loc():
+                self.grid[BY][BX] = 1
 
 
         # draw grid
@@ -66,17 +74,17 @@ class BlockGrid(object):
                     color = BLUE
                 else:
                     color = WHITE
-                pygame.draw.rect(self.screen, color, pygame.Rect(x + (i *
+                pygame.draw.rect(self.screen, color, pygame.Rect(X + (i *
                                                                GAME_BLOCK_UNIT),
-                                                               y + (j *
+                                                               Y + (j *
                                                                GAME_BLOCK_UNIT),
                                                                GAME_BLOCK_UNIT
                                                           , GAME_BLOCK_UNIT), 5)
 
         # remove falling block from grid
         if self.fblock.falling:
-            for bx, by in self.fblock.get_grid_loc():
-                self.grid[by][bx] = 0
+            for BX, BY in self.fblock.get_grid_loc():
+                self.grid[BY][BX] = 0
 
     def drop(self, x=2, y=1):
         '''
@@ -115,6 +123,10 @@ class BlockGrid(object):
 
     # TODO still needs to slide down all of the squares
     def calc_score(self):
+        """
+        Add------------
+        :return:
+        """
         for i in range(len(self.grid)):
             if sum(self.grid[i]) == len(self.grid[i]):
                 score(self, 1)
@@ -124,11 +136,19 @@ class BlockGrid(object):
 
     # TODO Remove when done with testing purposes
     def _complete_fst_row(self):
+        """
+        Add------------
+        :return:
+        """
         for i in range(len(self.grid[0])):
             self.grid[0][i] = 1
 
     # lrow - lowest row
     def drop_grid(self, lrow):
+        """
+        Add------------
+        :return:
+        """
         # go backwards through the grid, starting at the bottom
         # and drop down blocks one row at a time
         n = len(self.grid[:lrow])

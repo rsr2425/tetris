@@ -5,7 +5,7 @@
  [Write desc. here]
 """
 
-from grid import BlockGrid, x, y
+from grid import BlockGrid, X, Y
 
 
 SCREEN_WIDTH = 800
@@ -18,7 +18,7 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 done = False # pylint: disable=invalid-name
 CLOCK = pygame.time.Clock()
 
-GRID = BlockGrid(x, y, 600, 600, SCREEN)
+GRID = BlockGrid(X, Y, 600, 600, SCREEN)
 
 # TESTING - initialize some blocks on grid
 # GRID.grid[8][3] = 1
