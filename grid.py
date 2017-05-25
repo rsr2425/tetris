@@ -2,9 +2,6 @@ import random
 import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-
 # useful color constants
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
@@ -16,7 +13,7 @@ y = 100
 # g - grid
 def score(g, delta):
     g.curr_score += delta
-    print "The current score is %s" % (curr_score)
+    print "The current score is %s" % (g.curr_score)
 
 GAME_BLOCK_UNIT = 60
 
@@ -85,7 +82,7 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        choice = random.randint(5,6)
+        choice = random.randint(1,6)
         if choice == 1:
             self.fblock = TTetro(x, y, self)
         elif choice == 2:
@@ -112,15 +109,17 @@ class BlockGrid(object):
             for bx, by in self.fblock.get_grid_loc():
                 self.grid[by][bx] = 1
             self.drop()
+        self.calc_score()
         if input:
             self.fblock.move(input)
 
-    # TODO still needs to remove the squares after row is complete and slide
-    # down all of the squares
+    # TODO still needs to slide down all of the squares
     def calc_score(self):
-        for row in self.grid:
-            if sum(row) == len(row):
-                score(1)
+        for i in range(len(self.grid)):
+            if sum(self.grid[i]) == len(self.grid[i]):
+                score(self, 1)
+                for j in range(len(self.grid[i])):
+                    self.grid[i][j] = 0
 
     # TODO Remove when done with testing purposes
     def _complete_fst_row(self):

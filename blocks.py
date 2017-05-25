@@ -156,7 +156,7 @@ class ZTetro(Tetromino):
 class LTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 2:
+        if fy + 1 < self.bgrid.sqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False

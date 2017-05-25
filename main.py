@@ -5,7 +5,11 @@
  [Write desc. here]
 """
 
-from grid import BlockGrid, SCREEN_WIDTH, SCREEN_HEIGHT, x, y
+from grid import BlockGrid, x, y
+
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
 
 import pygame
 
@@ -15,7 +19,9 @@ done = False # pylint: disable=invalid-name
 CLOCK = pygame.time.Clock()
 
 GRID = BlockGrid(x, y, 600, 600, SCREEN)
-GRID.grid[8][3] = 1
+
+# TESTING - initialize some blocks on grid
+#GRID.grid[8][3] = 1
 
 # Main Game Loop
 while not done:
