@@ -25,7 +25,7 @@ class BlockGrid(object):
     Stores the locations of all the blocks relevant to the game.  Also keeps
     track of how blocks interact, such as completing a row.
 
-    The X specifies the upper left
+    The X specifies the upper left.
     '''
     def __init__(self, X, Y, width, height, s):
         # initialize grid with available size
@@ -81,7 +81,7 @@ class BlockGrid(object):
             for bx, by in self.fblock.get_grid_loc():
                 self.grid[by][bx] = 0
 
-    def drop(self, x=2, y=0):
+    def drop(self, x=2, y=1):
         '''
         Adds a new falling block to the top line of the grid.
         '''
