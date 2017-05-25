@@ -189,7 +189,7 @@ class ITetro(Tetromino):
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.bgrid.sqx:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)

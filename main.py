@@ -21,7 +21,7 @@ CLOCK = pygame.time.Clock()
 GRID = BlockGrid(x, y, 600, 600, SCREEN)
 
 # TESTING - initialize some blocks on grid
-#GRID.grid[8][3] = 1
+# GRID.grid[8][3] = 1
 
 # Main Game Loop
 while not done:
@@ -42,6 +42,6 @@ while not done:
 
     GRID.draw()
 
-    CLOCK.tick(30)
+    CLOCK.tick(10)
 
     pygame.display.flip()

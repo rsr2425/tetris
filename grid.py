@@ -120,8 +120,19 @@ class BlockGrid(object):
                 score(self, 1)
                 for j in range(len(self.grid[i])):
                     self.grid[i][j] = 0
+                self.drop_grid(i)
 
     # TODO Remove when done with testing purposes
     def _complete_fst_row(self):
         for i in range(len(self.grid[0])):
             self.grid[0][i] = 1
+
+    # lrow - lowest row
+    def drop_grid(self, lrow):
+        # go backwards through the grid, starting at the bottom
+        # and drop down blocks one row at a time
+        n = len(self.grid[:lrow])
+        for i in range(n):
+            if i > 0:
+                self.grid[n-i] = self.grid[n-1-i]
+        map(lambda _ : 0, self.grid[0])
