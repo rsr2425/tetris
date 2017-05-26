@@ -114,14 +114,13 @@ class BlockGrid(object):
         :return:
         '''
         if not self.fblock.falling:
-            for bx, by in self.fblock.get_grid_loc():
-                self.grid[by][bx] = 1
+            for BX, BY in self.fblock.get_grid_loc():
+                self.grid[BY][BX] = 1
             self.drop()
         self.calc_score()
         if input:
             self.fblock.move(input)
 
-    # TODO still needs to slide down all of the squares
     def calc_score(self):
         """
         Add------------
@@ -134,15 +133,7 @@ class BlockGrid(object):
                     self.grid[i][j] = 0
                 self.drop_grid(i)
 
-    # TODO Remove when done with testing purposes
-    def _complete_fst_row(self):
-        """
-        Add------------
-        :return:
-        """
-        for i in range(len(self.grid[0])):
-            self.grid[0][i] = 1
-
+    # Still seems a bit buggy
     # lrow - lowest row
     def drop_grid(self, lrow):
         """

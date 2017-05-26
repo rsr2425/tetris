@@ -38,6 +38,10 @@ while not done:
         GRID.update("LEFT")
     if PRESSED[pygame.K_RIGHT]:
         GRID.update("RIGHT")
+
+    # testing buttons
+    if PRESSED[pygame.K_d]:
+        GRID.drop_grid(GRID.sqy)
     SCREEN.fill((0, 0, 0))
 
     GRID.draw()
