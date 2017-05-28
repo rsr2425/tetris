@@ -6,31 +6,29 @@
 """
 
 import random
+
 import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
 
-# useful color constants
+
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
-X = 100
-Y = 100
+GAME_BLOCK_UNIT = 60
 
 # Useful Helper functions
-# g - grid
+# G - grid
 def score(G, delta):
     """Add----------------------"""
     G.curr_score += delta
     print "The current score is %s" % (G.curr_score)
-
-GAME_BLOCK_UNIT = 60
 
 class BlockGrid(object):
     '''
     Stores the locations of all the blocks relevant to the game.  Also keeps
     track of how blocks interact, such as completing a row.
 
-    The X specifies the upper left.
+    (X,Y) specifies the upper left.
     '''
     def __init__(self, X, Y, width, height, s):
         # initialize grid with available size
@@ -74,9 +72,11 @@ class BlockGrid(object):
                     color = BLUE
                 else:
                     color = WHITE
-                pygame.draw.rect(self.screen, color, pygame.Rect(X + (i *
+                pygame.draw.rect(self.screen, color, pygame.Rect(self.topleftx
+                                                                 + (i *
                                                                GAME_BLOCK_UNIT),
-                                                               Y + (j *
+                                                               self.toplefty
+                                                                 + (j *
                                                                GAME_BLOCK_UNIT),
                                                                GAME_BLOCK_UNIT
                                                           , GAME_BLOCK_UNIT), 5)
@@ -111,7 +111,6 @@ class BlockGrid(object):
 
         TODO Might be placing too much in this function.
         :param input:
-        :return:
         '''
         if not self.fblock.falling:
             for BX, BY in self.fblock.get_grid_loc():
@@ -124,7 +123,6 @@ class BlockGrid(object):
     def calc_score(self):
         """
         Add------------
-        :return:
         """
         for i in range(len(self.grid)):
             if sum(self.grid[i]) == len(self.grid[i]):
@@ -138,7 +136,6 @@ class BlockGrid(object):
     def drop_grid(self, lrow):
         """
         Add------------
-        :return:
         """
         # go backwards through the grid, starting at the bottom
         # and drop down blocks one row at a time

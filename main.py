@@ -3,10 +3,11 @@
  Tetris
 
  [Write desc. here]
+
+ [Specify nomenclature, like block grid.]
 """
 
-from grid import BlockGrid, X, Y
-
+from grid import BlockGrid
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
@@ -18,7 +19,14 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 done = False # pylint: disable=invalid-name
 CLOCK = pygame.time.Clock()
 
-GRID = BlockGrid(X, Y, 600, 600, SCREEN)
+# Specify top-left corner of block grid and size
+GRID_X = 100
+GRID_Y = 100
+GRID_W = 600
+GRID_H = 600
+
+
+GRID = BlockGrid(GRID_X, GRID_Y, GRID_W, GRID_H, SCREEN)
 
 # TESTING - initialize some blocks on grid
 # GRID.grid[8][3] = 1
