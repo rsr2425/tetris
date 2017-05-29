@@ -7,7 +7,7 @@
  [Specify nomenclature, like block grid.]
 """
 
-from blocks import Tetromino as T
+from blocks import Directions as D
 from grid import BlockGrid
 import pygame
 import time
@@ -42,15 +42,15 @@ while not done:
             done = True
     PRESSED = pygame.key.get_pressed()
     if PRESSED[pygame.K_DOWN]:
-        GRID.update(T.DOWN)
+        GRID.update(D.DOWN)
     if PRESSED[pygame.K_LEFT]:
-        GRID.update(T.LEFT)
+        GRID.update(D.LEFT)
     if PRESSED[pygame.K_RIGHT]:
-        GRID.update(T.RIGHT)
+        GRID.update(D.RIGHT)
     if PRESSED[pygame.K_e]:
-        GRID.update(T.CLOCKWISE)
+        GRID.update(D.CLOCKWISE)
     if PRESSED[pygame.K_q]:
-        GRID.update(T.COUNTERCLOCKWISE)
+        GRID.update(D.COUNTERCLOCKWISE)
 
     # testing buttons
     if PRESSED[pygame.K_d]:

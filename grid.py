@@ -90,7 +90,7 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        choice = random.randint(1,1)
+        choice = random.randint(1,6)
         if choice == 1:
             self.fblock = TTetro(x, y, self)
         elif choice == 2:
