@@ -7,12 +7,13 @@
  [Specify nomenclature, like block grid.]
 """
 
+from blocks import Tetromino as T
 from grid import BlockGrid
+import pygame
+import time
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
-
-import pygame
 
 pygame.init()
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -41,11 +42,15 @@ while not done:
             done = True
     PRESSED = pygame.key.get_pressed()
     if PRESSED[pygame.K_DOWN]:
-        GRID.update("DOWN")
+        GRID.update(T.DOWN)
     if PRESSED[pygame.K_LEFT]:
-        GRID.update("LEFT")
+        GRID.update(T.LEFT)
     if PRESSED[pygame.K_RIGHT]:
-        GRID.update("RIGHT")
+        GRID.update(T.RIGHT)
+    if PRESSED[pygame.K_e]:
+        GRID.update(T.CLOCKWISE)
+    if PRESSED[pygame.K_q]:
+        GRID.update(T.COUNTERCLOCKWISE)
 
     # testing buttons
     if PRESSED[pygame.K_d]:

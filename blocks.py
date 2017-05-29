@@ -6,9 +6,14 @@
 """
 
 class Tetromino(object):
+    UP, DOWN, LEFT, RIGHT, CLOCKWISE, COUNTERCLOCKWISE = range(6)
+
     def __init__(self, x=0, y=0, g=None):
         self._loc = x, y
-        self.orient = 'u'
+
+        # 0 - up, 1 - right, 2 - down, 3, left
+        self._orient = 0
+
         self.bgrid = g
         self.falling = True
         self._prev_loc = x,y
@@ -21,15 +26,25 @@ class Tetromino(object):
 
         self._prev_loc = self._loc
 
-        if input == "DOWN":
+        if input == self.DOWN:
             self.down()
-        elif input == "RIGHT":
+        elif input == self.RIGHT:
             self.right()
-        elif input == "LEFT":
+        elif input == self.LEFT:
             self.left()
+        elif input == self.CLOCKWISE:
+            self.clockwise()
+        elif input == self.COUNTERCLOCKWISE:
+            self.counterclockwise()
 
-    def rotate_clockwise(self):
-        raise NotImplemented()
+    def clockwise(self):
+        self._orient = (self._orient + 1) % 4
+        print (self._orient)
+
+    def counterclockwise(self):
+        self.clockwise()
+        self.clockwise()
+        self.clockwise()
 
     # FYI there's no bounds check here yet
     def up(self):
@@ -81,6 +96,7 @@ class BoxTetro(Tetromino):
         x, y = self._loc
         return [(x,y), (x+1,y), (x,y+1), (x+1,y+1)]
 
+
 class TTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
@@ -104,8 +120,19 @@ class TTetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        x, y = self._loc
-        return [(x,y), (x+1,y), (x-1,y), (x,y+1)]
+        if self._orient == 0:
+            x, y = self._loc
+            return [(x,y), (x+1,y), (x-1,y), (x,y+1)]
+        if self._orient == 1:
+            x, y = self._loc
+            return [(x,y), (x,y-1), (x,y+1), (x-1,y)]
+        if self._orient == 2:
+            x, y = self._loc
+            return [(x,y), (x,y-1), (x-1,y), (x+1,y)]
+        if self._orient == 3:
+            x, y = self._loc
+            return [(x,y), (x+1,y), (x,y-1), (x,y+1)]
+
 
 class STetro(Tetromino):
     def down(self):

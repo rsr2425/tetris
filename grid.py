@@ -90,7 +90,7 @@ class BlockGrid(object):
         '''
         Adds a new falling block to the top line of the grid.
         '''
-        choice = random.randint(1,6)
+        choice = random.randint(1,1)
         if choice == 1:
             self.fblock = TTetro(x, y, self)
         elif choice == 2:
@@ -112,6 +112,8 @@ class BlockGrid(object):
         TODO Might be placing too much in this function.
         :param input:
         '''
+        # check if block still falling
+        # if not, permanently add to grid
         if not self.fblock.falling:
             for BX, BY in self.fblock.get_grid_loc():
                 self.grid[BY][BX] = 1
