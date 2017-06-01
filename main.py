@@ -41,13 +41,13 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
     PRESSED = pygame.key.get_pressed()
-    if PRESSED[pygame.K_DOWN]:
+    if PRESSED[pygame.K_s]:
         GRID.update(D.DOWN)
-    if PRESSED[pygame.K_LEFT]:
+    if PRESSED[pygame.K_a]:
         GRID.update(D.LEFT)
-    if PRESSED[pygame.K_RIGHT]:
+    if PRESSED[pygame.K_d]:
         GRID.update(D.RIGHT)
-    if PRESSED[pygame.K_e]:
+    if PRESSED[pygame.K_e ]:
         GRID.update(D.CLOCKWISE)
     if PRESSED[pygame.K_q]:
         GRID.update(D.COUNTERCLOCKWISE)
