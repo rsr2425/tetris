@@ -42,7 +42,6 @@ class Tetromino(object):
 
     def clockwise(self):
         self._orient = (self._orient + 1) % 4
-        print (self._orient)
 
     def counterclockwise(self):
         self.clockwise()
@@ -76,14 +75,14 @@ class Tetromino(object):
 class BoxTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -91,7 +90,7 @@ class BoxTetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 1 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
