@@ -12,13 +12,12 @@ class Tetromino(object):
 
     def __init__(self, x=0, y=0, g=None):
         self._loc = x, y
+        self._prev_loc = x,y
 
-        # 0 - up, 1 - right, 2 - down, 3, left
-        self._orient = 0
+        self._orientation = Directions.UP
 
         self.bgrid = g
         self.falling = True
-        self._prev_loc = x,y
 
     def move(self, input):
         # Pieces that have stopped falling shouldn't move
@@ -40,15 +39,12 @@ class Tetromino(object):
             self.counterclockwise()
 
     def clockwise(self):
-        self._orient = (self._orient + 1) % 4
-        print (self._orient)
+        self._orientation = (self._orientation + 1) % 4
 
     def counterclockwise(self):
-        self.clockwise()
-        self.clockwise()
-        self.clockwise()
+        self._orientation = (self._orientation - 1) % 4
 
-    # FYI there's no bounds check here yet
+    # TODO add bounds checks
     def up(self):
         fx, fy = self._loc
         self._loc = (fx, fy-1)
@@ -129,16 +125,16 @@ class TTetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        if self._orient == Directions.UP:
+        if self._orientation == Directions.UP:
             x, y = self._loc
             return [(x,y), (x+1,y), (x-1,y), (x,y+1)]
-        if self._orient == Directions.RIGHT:
+        if self._orientation == Directions.RIGHT:
             x, y = self._loc
             return [(x,y), (x,y-1), (x,y+1), (x-1,y)]
-        if self._orient == Directions.DOWN:
+        if self._orientation == Directions.DOWN:
             x, y = self._loc
             return [(x,y), (x,y-1), (x-1,y), (x+1,y)]
-        if self._orient == Directions.LEFT:
+        if self._orientation == Directions.LEFT:
             x, y = self._loc
             return [(x,y), (x+1,y), (x,y-1), (x,y+1)]
 
@@ -166,16 +162,16 @@ class STetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        if self._orient == Directions.UP:
+        if self._orientation == Directions.UP:
             x, y = self._loc
             return [(x,y), (x+1,y), (x,y+1), (x-1,y+1)]
-        if self._orient == Directions.RIGHT:
+        if self._orientation == Directions.RIGHT:
             x, y = self._loc
             return [(x,y), (x,y+1), (x-1,y), (x-1,y-1)]
-        if self._orient == Directions.DOWN:
+        if self._orientation == Directions.DOWN:
             x, y = self._loc
             return [(x,y), (x+1,y), (x,y+1), (x-1,y+1)]
-        if self._orient == Directions.LEFT:
+        if self._orientation == Directions.LEFT:
             x, y = self._loc
             return [(x,y), (x,y+1), (x-1,y), (x-1,y-1)]
 
@@ -202,16 +198,16 @@ class ZTetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        if self._orient == Directions.UP:
+        if self._orientation == Directions.UP:
             x, y = self._loc
             return [(x,y), (x-1,y), (x,y+1), (x+1,y+1)]
-        if self._orient == Directions.RIGHT:
+        if self._orientation == Directions.RIGHT:
             x, y = self._loc
             return [(x,y), (x+1,y), (x,y+1), (x+1,y-1)]
-        if self._orient == Directions.DOWN:
+        if self._orientation == Directions.DOWN:
             x, y = self._loc
             return [(x,y), (x-1,y), (x,y+1), (x+1,y+1)]
-        if self._orient == Directions.LEFT:
+        if self._orientation == Directions.LEFT:
             x, y = self._loc
             return [(x,y), (x+1,y), (x,y+1), (x+1,y-1)]
 
@@ -238,16 +234,16 @@ class LTetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        if self._orient == Directions.UP:
+        if self._orientation == Directions.UP:
             x, y = self._loc
             return [(x,y), (x,y-1), (x,y+1), (x+1,y+1)]
-        if self._orient == Directions.RIGHT:
+        if self._orientation == Directions.RIGHT:
             x, y = self._loc
             return [(x,y), (x-1,y), (x-1,y+1), (x+1,y)]
-        if self._orient == Directions.DOWN:
+        if self._orientation == Directions.DOWN:
             x, y = self._loc
             return [(x,y), (x,y-1), (x,y+1), (x-1,y-1)]
-        if self._orient == Directions.LEFT:
+        if self._orientation == Directions.LEFT:
             x, y = self._loc
             return [(x,y), (x-1,y), (x+1,y-1), (x+1,y)]
 
@@ -274,15 +270,15 @@ class ITetro(Tetromino):
             self._loc = (fx-1, fy)
 
     def get_grid_loc(self):
-        if self._orient == Directions.UP:
+        if self._orientation == Directions.UP:
             x, y = self._loc
             return [(x,y), (x,y-1), (x,y+1), (x,y+2)]
-        if self._orient == Directions.RIGHT:
+        if self._orientation == Directions.RIGHT:
             x, y = self._loc
             return [(x,y), (x+1,y), (x-1,y), (x-2,y)]
-        if self._orient == Directions.DOWN:
+        if self._orientation == Directions.DOWN:
             x, y = self._loc
             return [(x,y), (x,y+1), (x,y-1), (x,y-2)]
-        if self._orient == Directions.LEFT:
+        if self._orientation == Directions.LEFT:
             x, y = self._loc
             return [(x,y), (x-1,y), (x+1,y), (x+2,y)]
