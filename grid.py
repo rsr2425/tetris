@@ -16,13 +16,6 @@ WHITE = (255, 255, 255)
 
 GAME_BLOCK_UNIT = 60
 
-# Useful Helper functions
-# G - grid
-def score(G, delta):
-    """Add----------------------"""
-    G.curr_score += delta
-    print "The current score is %s" % (G.curr_score)
-
 class BlockGrid(object):
     '''
     Stores the locations of all the blocks relevant to the game.  Also keeps
@@ -36,11 +29,11 @@ class BlockGrid(object):
         # sqy - # of squares height-wise
         self.sqx = width / GAME_BLOCK_UNIT
         self.sqy = height / GAME_BLOCK_UNIT
-        self.grid = [[0 for i in range(self.sqx)] for j in range(self.sqy)]
+        self.grid = [[0 for _ in range(self.sqx)] for _ in range(self.sqy)]
         self.topleftx = X
         self.toplefty = Y
         self.drop()
-        self.score = 0
+        # self.score = 0
         self.screen = s
         self.curr_score = 0
 
@@ -128,7 +121,9 @@ class BlockGrid(object):
         """
         for i in range(len(self.grid)):
             if sum(self.grid[i]) == len(self.grid[i]):
-                score(self, 1)
+                self.curr_score += 1
+                print "The current score is %s" % (self.curr_score)
+
                 for j in range(len(self.grid[i])):
                     self.grid[i][j] = 0
                 self.drop_grid(i)

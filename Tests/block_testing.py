@@ -1,9 +1,11 @@
 """
-    Testing Suite
+    Block Testing Suite
 
-    Contains all tests for my implementation of Tetris, using the
+    Contains all tests for the Tetromino pieces in tetris, using the
     testing framework PyTest.
 """
+import os, sys
+sys.path.append(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))))
 
 import pytest
 from blocks import Tetromino, Directions as D
