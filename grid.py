@@ -61,14 +61,14 @@ class BlockGrid(object):
         # add falling block to grid
         if self.fblock.falling:
             for BX, BY in self.fblock.get_grid_loc():
-                self.grid[BY][BX] = 1
+                self.grid[BY][BX] = 2
 
 
         # draw grid
         # (i, j)-th square in grid
         for j in range(len(self.grid)):
             for i in range(len(self.grid[j])):
-                if self.grid[j][i] == 1:
+                if self.grid[j][i] != 0:
                     color = BLUE
                 else:
                     color = WHITE
@@ -82,9 +82,7 @@ class BlockGrid(object):
                                                           , GAME_BLOCK_UNIT), 5)
 
         # remove falling block from grid
-        if self.fblock.falling:
-            for BX, BY in self.fblock.get_grid_loc():
-                self.grid[BY][BX] = 0
+        self.clean()
 
     def drop(self, x=2, y=1):
         '''
@@ -146,3 +144,14 @@ class BlockGrid(object):
             if i > 0:
                 self.grid[n-i] = self.grid[n-1-i]
         map(lambda _ : 0, self.grid[0])
+
+    def clean(self):
+        """
+        Removes any falling blocks from the grid, represented as '2's
+
+        :sig: () -> ()
+        """
+        for j in range(len(self.grid)):
+            for i in range(len(self.grid[j])):
+                if self.grid[j][i] == 2:
+                    self.grid[j][i] = 0
