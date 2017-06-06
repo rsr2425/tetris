@@ -6,6 +6,10 @@
 """
 
 import random
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
@@ -155,3 +159,6 @@ class BlockGrid(object):
             for i in range(len(self.grid[j])):
                 if self.grid[j][i] == 2:
                     self.grid[j][i] = 0
+
+    def log_grid(self):
+        logger.debug(str(self.grid))

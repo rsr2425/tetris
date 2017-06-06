@@ -54,6 +54,10 @@ while not done:
     if PRESSED[pygame.K_q]:
         GRID.update(D.COUNTERCLOCKWISE)
 
+    # debugging code
+    if PRESSED[pygame.K_p]:
+        GRID.log_grid()
+
     # testing buttons
     if PRESSED[pygame.K_d]:
         GRID.drop_grid(GRID.sqy)
