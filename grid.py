@@ -102,17 +102,17 @@ class BlockGrid(object):
         '''
         choice = random.randint(1,6)
         if choice == 1:
-            self.fblock = TTetro(x, y, self)
+            self.fblock = TTetro(x, y, self.sqx, self.sqy)
         elif choice == 2:
-            self.fblock = BoxTetro(x, y, self)
+            self.fblock = BoxTetro(x, y, self.sqx, self.sqy)
         elif choice == 3:
-            self.fblock = STetro(x, y, self)
+            self.fblock = STetro(x, y, self.sqx, self.sqy)
         elif choice == 4:
-            self.fblock = ZTetro(x, y, self)
+            self.fblock = ZTetro(x, y, self.sqx, self.sqy)
         elif choice == 5:
-            self.fblock = LTetro(x, y, self)
+            self.fblock = LTetro(x, y, self.sqx, self.sqy)
         elif choice == 6:
-            self.fblock = ITetro(x, y, self)
+            self.fblock = ITetro(x, y, self.sqx, self.sqy)
 
     def update(self, input=None):
         '''
