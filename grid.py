@@ -6,6 +6,10 @@
 """
 
 import random
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 import pygame
 from blocks import TTetro, BoxTetro, STetro, ZTetro, LTetro, ITetro
@@ -37,6 +41,9 @@ class BlockGrid(object):
         self.screen = s
         self.curr_score = 0
 
+        # for debugging purposes
+        self._log = False
+
     def draw(self):
         '''
         Draws all squares currently containted in the grid.
@@ -53,15 +60,20 @@ class BlockGrid(object):
 
         # add falling block to grid
         if self.fblock.falling:
+            count = 0
             for BX, BY in self.fblock.get_grid_loc():
-                self.grid[BY][BX] = 1
+                # if self._log:
+                #     logger.debug(str((BX,BY)))
+                self.grid[BY][BX] = 2
+                count += 1
+            assert count == 4
 
 
         # draw grid
         # (i, j)-th square in grid
         for j in range(len(self.grid)):
             for i in range(len(self.grid[j])):
-                if self.grid[j][i] == 1:
+                if self.grid[j][i] == 1 or self.grid[j][i] == 2:
                     color = BLUE
                 else:
                     color = WHITE
@@ -75,9 +87,7 @@ class BlockGrid(object):
                                                           , GAME_BLOCK_UNIT), 5)
 
         # remove falling block from grid
-        if self.fblock.falling:
-            for BX, BY in self.fblock.get_grid_loc():
-                self.grid[BY][BX] = 0
+        self.clean()
 
     def drop(self, x=2, y=1):
         '''
@@ -85,17 +95,17 @@ class BlockGrid(object):
         '''
         choice = random.randint(1,6)
         if choice == 1:
-            self.fblock = TTetro(x, y, self)
+            self.fblock = TTetro(x, y, self.sqx, self.sqy)
         elif choice == 2:
-            self.fblock = BoxTetro(x, y, self)
+            self.fblock = BoxTetro(x, y, self.sqx, self.sqy)
         elif choice == 3:
-            self.fblock = STetro(x, y, self)
+            self.fblock = STetro(x, y, self.sqx, self.sqy)
         elif choice == 4:
-            self.fblock = ZTetro(x, y, self)
+            self.fblock = ZTetro(x, y, self.sqx, self.sqy)
         elif choice == 5:
-            self.fblock = LTetro(x, y, self)
+            self.fblock = LTetro(x, y, self.sqx, self.sqy)
         elif choice == 6:
-            self.fblock = ITetro(x, y, self)
+            self.fblock = ITetro(x, y, self.sqx, self.sqy)
 
     def update(self, input=None):
         '''
@@ -141,3 +151,17 @@ class BlockGrid(object):
             if i > 0:
                 self.grid[n-i] = self.grid[n-1-i]
         map(lambda _ : 0, self.grid[0])
+
+    def clean(self):
+        """
+        Removes any falling blocks from the grid, represented as '2's
+
+        :sig: () -> ()
+        """
+        for j in range(len(self.grid)):
+            for i in range(len(self.grid[j])):
+                if self.grid[j][i] == 2:
+                    self.grid[j][i] = 0
+
+    def log_grid(self):
+        self._log = not self._log

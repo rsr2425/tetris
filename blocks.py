@@ -10,13 +10,14 @@ class Directions(object):
 
 class Tetromino(object):
 
-    def __init__(self, x=0, y=0, g=None):
+    def __init__(self, x=0, y=0, gsqx=0, gsqy=0):
         self._loc = x, y
         self._prev_loc = x,y
 
         self._orientation = Directions.UP
 
-        self.bgrid = g
+        self.gsqx = gsqx
+        self.gsqy = gsqy
         self.falling = True
 
     def move(self, input):
@@ -71,14 +72,14 @@ class Tetromino(object):
 class BoxTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -86,7 +87,7 @@ class BoxTetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 1 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
@@ -105,14 +106,14 @@ class BoxTetro(Tetromino):
 class TTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -120,7 +121,7 @@ class TTetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 2 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
@@ -142,14 +143,14 @@ class TTetro(Tetromino):
 class STetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -157,7 +158,7 @@ class STetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 2 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
@@ -178,14 +179,14 @@ class STetro(Tetromino):
 class ZTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -193,7 +194,7 @@ class ZTetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 2 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
@@ -214,14 +215,14 @@ class ZTetro(Tetromino):
 class LTetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 1:
+        if fy + 1 < self.gsqy - 1:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx - 1:
+        if fx + 1 >= self.gsqx - 1:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -229,7 +230,7 @@ class LTetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 1 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
@@ -250,14 +251,14 @@ class LTetro(Tetromino):
 class ITetro(Tetromino):
     def down(self):
         fx, fy = self._loc
-        if fy + 1 < self.bgrid.sqy - 2:
+        if fy + 1 < self.gsqy - 2:
             self._loc = (fx, fy+1)
         else:
             self.falling = False
 
     def right(self):
         fx, fy = self._loc
-        if fx + 1 >= self.bgrid.sqx:
+        if fx + 1 >= self.gsqx:
             self._loc = (0, fy)
         else:
             self._loc = (fx+1, fy)
@@ -265,7 +266,7 @@ class ITetro(Tetromino):
     def left(self):
         fx, fy = self._loc
         if fx - 1 < 0:
-            self._loc = self.bgrid.sqx - 2, fy
+            self._loc = self.gsqx - 2, fy
         else:
             self._loc = (fx-1, fy)
 
