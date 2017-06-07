@@ -48,6 +48,9 @@ class BlockGrid(object):
         self.screen = s
         self.curr_score = 0
 
+        # for debugging purposes
+        self._log = False
+
     def draw(self):
         '''
         Draws all squares currently containted in the grid.
@@ -64,15 +67,20 @@ class BlockGrid(object):
 
         # add falling block to grid
         if self.fblock.falling:
+            count = 0
             for BX, BY in self.fblock.get_grid_loc():
+                # if self._log:
+                #     logger.debug(str((BX,BY)))
                 self.grid[BY][BX] = 2
+                count += 1
+            assert count == 4
 
 
         # draw grid
         # (i, j)-th square in grid
         for j in range(len(self.grid)):
             for i in range(len(self.grid[j])):
-                if self.grid[j][i] != 0:
+                if self.grid[j][i] == 1 or self.grid[j][i] == 2:
                     color = BLUE
                 else:
                     color = WHITE
@@ -161,4 +169,4 @@ class BlockGrid(object):
                     self.grid[j][i] = 0
 
     def log_grid(self):
-        logger.debug(str(self.grid))
+        self._log = not self._log
