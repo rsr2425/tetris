@@ -35,7 +35,7 @@ class BlockGrid(object):
         # sqy - # of squares height-wise
         self.sqx = width / GAME_BLOCK_UNIT
         self.sqy = height / GAME_BLOCK_UNIT
-        self.grid = [[0 for _ in range(self.sqx)] for _ in range(self.sqy)]
+        self.grid = [[0 for _ in range(int(self.sqx))] for _ in range(int(self.sqy))]
         self.topleftx = X
         self.toplefty = Y
         self.drop()
@@ -134,7 +134,7 @@ class BlockGrid(object):
         for i in range(len(self.grid)):
             if sum(self.grid[i]) == len(self.grid[i]):
                 self.curr_score += 1
-                print "The current score is %s" % (self.curr_score)
+                print(f"The current score is {self.curr_score}")
 
                 for j in range(len(self.grid[i])):
                     self.grid[i][j] = 0

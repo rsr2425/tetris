@@ -6,7 +6,7 @@
 """
 
 class Directions(object):
-    UP, RIGHT, DOWN, LEFT, CLOCKWISE, COUNTERCLOCKWISE = range(6)
+    UP, RIGHT, DOWN, LEFT, CLOCKWISE, COUNTERCLOCKWISE = list(range(6))
 
 class Tetromino(object):
 
